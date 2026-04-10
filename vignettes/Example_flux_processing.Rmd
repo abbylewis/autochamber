@@ -17,3 +17,59 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(autochamber)
 ```
+
+Load and visualize data
+
+```{r}
+head(data_small_genx)
+```
+
+```{r}
+head(data_small_chapada)
+```
+
+Calculate fluxes
+
+```{r}
+genx_fluxes <- calculate_flux(data_small_genx,
+                              cutoff_start = 220,
+                              cutoff_end = 510,
+                              group_col = NULL)
+
+chapada_fluxes <- calculate_flux(data_small_chapada,
+                                 cutoff_start = 180,
+                                 cutoff_end = 680,
+                                 group_col = "location")
+```
+
+Look at recent raw data
+
+```{r}
+recent_raw_genx <- generate_recent_raw(
+  data_small_genx,
+  today = as_date(max(data_small_genx$TIMESTAMP)))
+
+recent_raw_chapada <- generate_recent_raw(
+  data_small_chapada,
+  group_col = "location",
+  today = as_date(max(data_small_genx$TIMESTAMP)))
+```
+
+Add maintenance log
+
+```{r}
+add_maintenance_log()
+```
+
+Partition
+
+```{r}
+partition_co2()
+```
+
+Interpolate
+
+```{r}
+interpolate()
+```
+

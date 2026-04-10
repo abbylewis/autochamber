@@ -15,7 +15,7 @@
 #'
 #' @param data_small dataset. Must contain columns for MIU_VALVE, TIMESTAMP, 
 #'   and CH4d_ppm/CO2d_ppm/N2Od_ppm
-#' @param start_cutoff Amount of time to remove after the start of the flux 
+#' @param cutoff_start Amount of time to remove after the start of the flux 
 #'    interval (in seconds)
 #' @param cutoff_end End of flux, as determined from the start of the flux 
 #'    interval (in seconds)
@@ -31,8 +31,8 @@
 #'
 #' @return L0 slopes
 calculate_flux <- function(data_small,
-                           start_cutoff = NA,
-                           end_cutoff = NA,
+                           cutoff_start = NA,
+                           cutoff_end = NA,
                            group_col = NULL) {
   
   group_vars <- c("group", "MIU_VALVE", group_col) %>%
@@ -82,12 +82,12 @@ calculate_flux <- function(data_small,
   filtered_data <- grouped_data %>%
     group_by(across(all_of(group_vars))) %>%
     mutate(
-      n = sum(Manifold_Timer >= start_cutoff &
-                Manifold_Timer <= end_cutoff)
+      n = sum(Manifold_Timer >= cutoff_start &
+                Manifold_Timer <= cutoff_end)
     ) %>%
     filter(
-      Manifold_Timer >= start_cutoff,
-      Manifold_Timer <= end_cutoff,
+      Manifold_Timer >= cutoff_start,
+      Manifold_Timer <= cutoff_end,
       max(change_s) < 1000,
       n < 200
     )

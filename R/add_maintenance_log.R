@@ -1,4 +1,6 @@
-add_maintenance_log <- function(slopes, gs_url) {
+add_maintenance_log <- function(slopes, 
+                                gs_url) {
+  
   if (!reprocess | !is.null(start_date)) {
     # Load previously calculated slopes
     old_slopes <- read_csv(here::here("processed_data", "L0.csv"),
