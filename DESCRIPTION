@@ -1,0 +1,14 @@
+Package: autochamber
+Title: Utilities for processing data from automated flux chambers
+Version: 0.0.0.9000
+Authors@R: 
+    person("Abigail", "Lewis", , "abigail.sl.lewis@gmail.com", role = c("aut", "cre"))
+Description: Functions to calculate fluxes of methane, carbon dioxide, and nitrous oxide from automated flux chambers.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
