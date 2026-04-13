@@ -23,4 +23,4 @@ library(autochamber)
 
 ## Documentation
 
-Full workflow vignette: [https://abbylewis.github.io/autochamber/articles/Example_flux_processing.html](https://yourusername.github.io/autochamber/articles/workflow.html){.uri}
+Full workflow vignette: [https://abbylewis.github.io/autochamber/articles/Example_flux_processing.html](https://abbylewis.github.io/autochamber/articles/Example_flux_processing.htmlhtml)
