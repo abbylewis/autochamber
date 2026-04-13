@@ -4,7 +4,12 @@
 \alias{generate_recent_raw}
 \title{Generate recent raw data}
 \usage{
-generate_recent_raw(data_small, today = Sys.Date(), group_col = NULL, days = 7)
+generate_recent_raw(
+  data_small,
+  today = Sys.Date(),
+  group_cols = NULL,
+  days = 7
+)
 }
 \arguments{
 \item{data_small}{dataset. Must contain columns for MIU_VALVE, TIMESTAMP,
@@ -12,7 +17,7 @@ and CH4d_ppm/CO2d_ppm/N2Od_ppm}
 
 \item{today}{Latest date of flux data requested}
 
-\item{group_col}{Optional grouping variable}
+\item{group_cols}{Optional grouping variable}
 
 \item{days}{Number of days of data}
 }

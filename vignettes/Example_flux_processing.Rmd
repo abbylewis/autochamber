@@ -1,8 +1,9 @@
 ---
 title: "Example flux processing"
 output: rmarkdown::html_vignette
+author: "Abigail Lewis"
 vignette: >
-  %\VignetteIndexEntry{Example_flux_processing}
+  %\VignetteIndexEntry{Example flux processing}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -74,12 +75,19 @@ recent_raw_chapada <- generate_recent_raw(
 Let's take a look at the most recent data. `plot_raw_data()` plots the greenhouse gas data from the gas analyzer, with linear slopes for a given flux interval shown as solid black lines.
 
 ```{r plot_raw}
-plot_raw_data(head(recent_raw_genx, 500), # Only want ~an hour or two for this figure
+# Only want ~an hour or two for this figure
+data_to_plot_genx <- head(recent_raw_genx, 500)
+# Plot
+plot_raw_data(
+  data_to_plot_genx,
   cutoff_start = 220,
   cutoff_end = 510
 )
 
-plot_raw_data(head(recent_raw_chapada, 500),
+data_to_plot_chapada <- head(recent_raw_chapada, 500)
+# Plot
+plot_raw_data(
+  data_to_plot_chapada,
   cutoff_start = 180,
   cutoff_end = 680,
   group_cols = "location"
@@ -99,6 +107,18 @@ genx_fluxes <- calculate_flux(data_small_genx,
 chapada_fluxes <- calculate_flux(data_small_chapada,
   cutoff_start = 180,
   cutoff_end = 680,
+  group_cols = "location"
+)
+```
+
+## Plot raw fluxes
+
+To take a look at fluxes, you can use the function `plot_calculated_fluxes()`, which includes options for grouping columns, start and end dates, and daily aggregation (see documentation).
+
+```{r plot_calculated}
+plot_calculated_fluxes(genx_fluxes)
+
+plot_calculated_fluxes(chapada_fluxes,
   group_cols = "location"
 )
 ```
@@ -154,3 +174,23 @@ chapada_fluxes_qaqced <- filter_fluxes_by_SE(
 ```
 
 ## Visualize
+
+Let's run the same `plot_calculated_fluxes()` function with these quality controlled fluxes to make sure everything looks right.
+
+```{r plot_qaqced}
+plot_calculated_fluxes(
+  genx_fluxes_qaqced |>
+    # Plotting function requires TIMESTAMP column
+    dplyr::rename(TIMESTAMP = flux_time)
+)
+
+plot_calculated_fluxes(
+  chapada_fluxes_qaqced |>
+    dplyr::rename(TIMESTAMP = flux_time),
+  group_cols = "location"
+)
+```
+
+## Ta da! 
+
+That's all for now! Please reach out to Abby Lewis (abigail.sl.lewis\@gmail.com) if you have any questions or concerns. Requests for new features can be added as Issues within the GitHub repository for this project.

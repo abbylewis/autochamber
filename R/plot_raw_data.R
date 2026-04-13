@@ -1,12 +1,13 @@
 #' Plot raw flux chamber data
 #'
 #' @description
-#' Visualise raw chamber concentration data with optional grouping and flux window highlighting.
+#' Visualize raw chamber concentration data, separated by flux interval
 #'
 #' @param small_raw_dataset Data frame containing raw flux data.
 #' Must include TIMESTAMP, Manifold_Timer, MIU_VALVE (or Chamber), and gas columns.
 #'
 #' @param cutoff_start Numeric. Start of flux window in seconds.
+#'
 #' @param cutoff_end Numeric. End of flux window in seconds.
 #'
 #' @param group_cols Optional character vector of grouping variables for faceting.
@@ -17,6 +18,18 @@ plot_raw_data <- function(small_raw_dataset,
                           cutoff_start = 200,
                           cutoff_end = 540,
                           group_cols = NULL) {
+  # -----------------------------
+  # Don't run if data is too long
+  # -----------------------------
+
+  if (nrow(small_raw_dataset) > 20000) {
+    stop(paste0(
+      "Dataset too large.\nThe data you provided is ",
+      nrow(small_raw_dataset), " rows long, and this function works
+                best with ~500-1000 rows of data."
+    ))
+  }
+
   # -----------------------------
   # Standardize column names
   # -----------------------------
@@ -63,9 +76,9 @@ plot_raw_data <- function(small_raw_dataset,
     dplyr::mutate(
       gas = dplyr::case_match(
         gas,
-        "CH4d_ppm" ~ "CH[4]",
-        "CO2d_ppm" ~ "CO[2]",
-        "N2Od_ppm" ~ "N[2]*O",
+        "CH4d_ppm" ~ "CH4",
+        "CO2d_ppm" ~ "CO2",
+        "N2Od_ppm" ~ "N2O",
         .default = gas
       )
     )

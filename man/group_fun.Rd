@@ -13,5 +13,5 @@ group_fun(MIU_VALVE)
 group number
 }
 \description{
-Assign groups for separate readings
+Internal utility for assigning fluxes to groups based on chamber number
 }

@@ -8,7 +8,7 @@ calculate_flux(
   data_small,
   cutoff_start = NA,
   cutoff_end = NA,
-  group_col = NULL
+  group_cols = NULL
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ interval (in seconds)}
 \item{cutoff_end}{End of flux, as determined from the start of the flux
 interval (in seconds)}
 
-\item{group_col}{Optional grouping variable. See details}
+\item{group_cols}{Optional grouping variable. See details}
 }
 \description{
 Calculate linear rate of change in CO2, CH4, and/or N2O for each flux interval
@@ -32,6 +32,6 @@ and/or N2O) concentrations. The function requires a dataframe of input data
 that contains columns for gas concentrations (in ppm), timestamps, and
 a column with the chamber index. By default, fluxes are grouped by
 timestamp and chamber index, but additional grouping columns can be
-identified in group_col (e.g., if data from multiple gas analyzers are
+identified in group_cols (e.g., if data from multiple gas analyzers are
 combined in data_small)
 }

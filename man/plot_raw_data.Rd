@@ -25,5 +25,5 @@ Must include TIMESTAMP, Manifold_Timer, MIU_VALVE (or Chamber), and gas columns.
 A plotly object
 }
 \description{
-Visualise raw chamber concentration data with optional grouping and flux window highlighting.
+Visualize raw chamber concentration data, separated by flux interval
 }

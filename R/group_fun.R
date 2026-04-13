@@ -2,6 +2,9 @@
 #'
 #' @param MIU_VALVE Chamber number
 #'
+#' @description
+#' Internal utility for assigning fluxes to groups based on chamber number
+#'
 #' @returns group number
 group_fun <- function(MIU_VALVE) {
   group <- rep(1, length(MIU_VALVE))
