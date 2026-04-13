@@ -2,7 +2,7 @@
 
 Utilities for processing greenhouse gas data from automated chambers in R.
 
-Contact: Abigail Lewis ([abigail.sl.lewis\@gmail.com](mailto:abigail.sl.lewis@gmail.com){.email})
+Contact: Abigail Lewis ([abigail.sl.lewis\@gmail.com](mailto:abigail.sl.lewis@gmail.com))
 
 ## Description
 
