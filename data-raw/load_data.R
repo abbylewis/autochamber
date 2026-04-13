@@ -16,8 +16,10 @@ load_data_genx <- function(file) {
         N2Od_ppb = GENX_N20ppb,
         MIU_VALVE = Fluxing_Chamber
       ) %>%
-      mutate(Format = "NEW",
-             N2Od_ppm = as.numeric(N2Od_ppb) / 1000) %>%
+      mutate(
+        Format = "NEW",
+        N2Od_ppm = as.numeric(N2Od_ppb) / 1000
+      ) %>%
       select(TIMESTAMP, CH4d_ppm, CO2d_ppm, N2Od_ppm, MIU_VALVE, Manifold_Timer, Format)
   } else if ("GENX_CH4ppb" %in% colnames(data_raw)) {
     message(file, " has CH4ppb")
@@ -63,18 +65,24 @@ load_data_genx <- function(file) {
 }
 
 # Chapada
-load_data_chapada <- function(file){
+load_data_chapada <- function(file) {
   data_raw <- read_csv(file, col_types = cols(.default = "c"), skip = 1)
-  location = str_extract(tolower(file), "high|low")
-  
+  location <- str_extract(tolower(file), "high|low")
+
   data_small <- data_raw %>%
-    rename(CH4d_ppb = CH4,
-           CO2d_ppm = CO2) %>%
+    rename(
+      CH4d_ppb = CH4,
+      CO2d_ppm = CO2
+    ) %>%
     filter(!CH4d_ppb == "Smp") %>%
-    mutate(CH4d_ppm = as.numeric(CH4d_ppb)/1000,
-           location = location) %>%
-    select(location, TIMESTAMP, CH4d_ppm, CO2d_ppm, 
-           Fluxing_Chamber, Manifold_Timer, Flux_Status)
-  
+    mutate(
+      CH4d_ppm = as.numeric(CH4d_ppb) / 1000,
+      location = location
+    ) %>%
+    select(
+      location, TIMESTAMP, CH4d_ppm, CO2d_ppm,
+      Fluxing_Chamber, Manifold_Timer, Flux_Status
+    )
+
   return(data_small)
 }

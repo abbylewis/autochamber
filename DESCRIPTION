@@ -10,8 +10,18 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    googlesheets4,
+    here,
+    ggplot2,
+    plotly
 VignetteBuilder: knitr
 Depends: 
     R (>= 3.5)
+Imports: 
+    dplyr,
+    tidyr,
+    lubridate,
+    stats,
+    purrr
 LazyData: true

@@ -1,5 +1,5 @@
 ---
-title: "Example_flux_processing"
+title: "Example flux processing"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Example_flux_processing}
@@ -14,76 +14,143 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+## Load package
+
+```{r setup, warning=FALSE, message=FALSE}
 library(autochamber)
 ```
 
-Load and visualize data
+## The data
 
-```{r}
+This package includes two example datasets, `data_small_genx` and `data_small_chapada`. Each of these datasets includes a few days of automated flux chamber data. Columns include:
+
+-   `TIMESTAMP`: time of sample
+
+-   `CH4d_ppm`: methane concentration (ppm)
+
+-   `CO2d_ppm`: carbon dioxide concentration (ppm)
+
+-   `N2Od_ppm`: nitrous oxide concentration (ppm). Note that this is not included in `data_small_chapada` (not measured)
+
+-   `MIU_VALVE`: ID number for chamber being sampled at any given time
+
+-   `Manifold_Timer` (time in seconds output from sampling manifold)
+
+You will notice that `data_small_genx` also has a column `Format`, while `data_small_chapada` has columns for `location` and `Flux_Status`.
+
+-   `location` is an example of a grouping variable that may be relevant to flux processing. `data_small_chapada` includes data from two gas analyzers, which are differentiated by the `location` column. This will need to be specified in many of the functions below.
+
+-   Conversely, `Format` and `Flux_Status` are not needed for the current flux processing workflow, and they will be ignored and ultimately removed throughout the functions below.
+
+```{r look}
 head(data_small_genx)
-```
 
-```{r}
 head(data_small_chapada)
 ```
 
-Look at recent raw data
+## Isolate recent raw data
 
-```{r}
+When working with months or years of flux data, file sizes can get huge. It may be helpful to isolate recent raw data for real-time visualization and quality control. The `generate_recent_raw()` function takes a dataset of raw flux data and outputs a trimmed file with a certain number of recent days, which may then be stored and quickly visualized.
+
+```{r recent_raw}
 recent_raw_genx <- generate_recent_raw(
   data_small_genx,
-  today = as_date(max(data_small_genx$TIMESTAMP)))
+  # For real-time workflows, set 'today' via Sys.Date()
+  # Here, we are instead just using the most recent data
+  today = lubridate::as_date(max(data_small_genx$TIMESTAMP)),
+  days = 2
+)
 
 recent_raw_chapada <- generate_recent_raw(
   data_small_chapada,
-  group_col = "location",
-  today = as_date(max(data_small_genx$TIMESTAMP)))
+  group_cols = "location",
+  today = lubridate::as_date(max(data_small_chapada$TIMESTAMP)),
+  days = 2
+)
 ```
 
-Visualize
+## Visualize
 
-```{r}
+Let's take a look at the most recent data. `plot_raw_data()` plots the greenhouse gas data from the gas analyzer, with linear slopes for a given flux interval shown as solid black lines.
 
+```{r plot_raw}
+plot_raw_data(head(recent_raw_genx, 500), # Only want ~an hour or two for this figure
+  cutoff_start = 220,
+  cutoff_end = 510
+)
+
+plot_raw_data(head(recent_raw_chapada, 500),
+  cutoff_start = 180,
+  cutoff_end = 680,
+  group_cols = "location"
+)
 ```
 
-Calculate fluxes
+## Calculate fluxes
 
-```{r}
+Those flux intervals look pretty good! That is, they look like there is a linear slope in the range of data we specified. Let's now use those same flux intervals to calculate slopes for all gases over the full dataset using `calculate_flux()`.
+
+```{r calc_flux}
 genx_fluxes <- calculate_flux(data_small_genx,
-                              cutoff_start = 220,
-                              cutoff_end = 510,
-                              group_col = NULL)
+  cutoff_start = 220, # Same as above
+  cutoff_end = 510
+)
 
 chapada_fluxes <- calculate_flux(data_small_chapada,
-                                 cutoff_start = 180,
-                                 cutoff_end = 680,
-                                 group_col = "location")
+  cutoff_start = 180,
+  cutoff_end = 680,
+  group_cols = "location"
+)
 ```
 
-Add maintenance log
+## Add maintenance log
 
-```{r}
-genx_fluxes_cleaned <- 
-  add_maintenance_log(slopes = genx_fluxes,
-                      gs_url =  "http://docs.google.com/spreadsheets/d/1_uk8-335NDJOdVU6OjLcxWx4MamNJeVEbVkSmdb9oRs/edit?gid=0#gid=0"
+For each project, we have created maintenance logs that record any intervals of data that should be flagged and potentially also set to NA. These maintenance logs are stored as google sheets, which you can access via the links below.
+
+When adapting this workflow for other projects, the maintenance log will need to follow the same general format. The sheet needs to be set so that anyone with the link can view. Column order does not matter, but column name and capitalization does.
+
+-   `Start_time`: Start of the window of time that should be flagged
+
+-   `End_time`: End time
+
+-   `Description`: Text description of why this period is being flagged
+
+-   `Chambers`: Which chambers does this apply to
+
+-   `Analyzer`: Type of gas analyzer. Options are `CO2/CH4`, `N2O`, and `all`
+
+-   `Flag`: Short text flag that will be added to data. E.g., "Chamber maintenance"
+
+-   `Remove`: Whether or not to remove data in this window (y/n)
+
+Grouping columns should be included in the maintenance log. For example, you will see `location` in the Chapada maintenance log.
+
+```{r maint_log}
+genx_fluxes_cleaned <-
+  add_maintenance_log(
+    slopes = genx_fluxes,
+    gs_url = "http://docs.google.com/spreadsheets/d/1_uk8-335NDJOdVU6OjLcxWx4MamNJeVEbVkSmdb9oRs/edit?gid=0#gid=0"
   )
 
-chapada_fluxes_cleaned <- 
-  add_maintenance_log(slopes = chapada_fluxes,
-                      gs_url =  "https://docs.google.com/spreadsheets/d/103PpjEmjLAQkov9ywjA5KxyJiIP3nEWy7V8gWVZhd1M/edit?gid=0#gid=0"
+chapada_fluxes_cleaned <-
+  add_maintenance_log(
+    slopes = chapada_fluxes,
+    gs_url = "https://docs.google.com/spreadsheets/d/103PpjEmjLAQkov9ywjA5KxyJiIP3nEWy7V8gWVZhd1M/edit?gid=0#gid=0",
+    group_cols = "location"
   )
 ```
 
-Partition
+## Run seasonal QAQC
 
-```{r}
-partition_co2()
+```{r qaqc}
+genx_fluxes_qaqced <- filter_fluxes_by_SE(
+  genx_fluxes_cleaned
+)
+
+chapada_fluxes_qaqced <- filter_fluxes_by_SE(
+  chapada_fluxes_cleaned,
+  group_cols = "location"
+)
 ```
 
-Interpolate
-
-```{r}
-interpolate()
-```
-
+## Visualize

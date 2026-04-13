@@ -1,8 +1,10 @@
 genx <- here::here("data-raw", "current.dat")
-chapada <- c(here::here("data-raw", "Chapada_Low_FLUX_COMB.dat"),
-             here::here("data-raw", "Chapada_High_FLUX_COMB.dat"))
+chapada <- c(
+  here::here("data-raw", "Chapada_Low_FLUX_COMB.dat"),
+  here::here("data-raw", "Chapada_High_FLUX_COMB.dat")
+)
 
-source(here::here("data-raw","load_data.R"))
+source(here::here("data-raw", "load_data.R"))
 
 data_small_genx <- load_data_genx(genx)
 data_small_chapada <- chapada %>%

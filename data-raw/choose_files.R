@@ -11,8 +11,8 @@ choose_files <- function(start_date = NULL,
   # If a start and end date are provided, look for files that match these dates
   if (!is.null(start_date) & !is.null(end_date)) {
     possible_file_names <- seq(as.Date(start_date),
-                               as.Date(end_date),
-                               by = "1 day"
+      as.Date(end_date),
+      by = "1 day"
     ) %>%
       format("%Y%m%d")
     if (as.Date(end_date) >= Sys.Date()) {
@@ -22,12 +22,12 @@ choose_files <- function(start_date = NULL,
   } else if (!is.null(start_date) | !is.null(end_date)) {
     stop("If you provide a start or end date, you must provide both")
   }
-  
+
   if (length(files) == 0) {
     message("No files to process")
     return(read_csv(here::here("processed_data", "L0.csv"), show_col_types = F))
   }
-  
+
   exclude <- c(
     "GENX_INSTRUMENT_FLUX_COMB_20240417020046.dat",
     "GENX_INSTRUMENT_FLUX_COMB_20240403020045.dat",
@@ -35,6 +35,6 @@ choose_files <- function(start_date = NULL,
     "GENX_LGR_04142021_20210505020005.dat"
   )
   files <- files[!grepl(paste0(exclude, collapse = "|"), files)]
-  
+
   return(files)
 }
