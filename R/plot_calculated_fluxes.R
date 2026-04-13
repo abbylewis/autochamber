@@ -136,7 +136,7 @@ plot_calculated_fluxes <- function(
     ggplot2::geom_point(size = 0.6) +
     ggplot2::facet_grid(facet_formula, scales = "free_y") +
     ggplot2::labs(
-      y = "Flux (µmol/m2/s)",
+      y = "Flux (umol/m2/s)",
       x = NULL,
       color = "Chamber"
     ) +
