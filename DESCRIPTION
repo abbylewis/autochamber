@@ -4,6 +4,7 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Abigail", "Lewis", , "abigail.sl.lewis@gmail.com", role = c("aut", "cre"))
 Description: Functions to calculate fluxes of methane, carbon dioxide, and nitrous oxide from automated flux chambers.
+URL: https://abbylewis.github.io/autochamber
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

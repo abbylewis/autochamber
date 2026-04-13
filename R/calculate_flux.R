@@ -29,8 +29,8 @@
 #'
 #' @export
 calculate_flux <- function(data_small,
-                           cutoff_start = NA,
-                           cutoff_end = NA,
+                           cutoff_start,
+                           cutoff_end,
                            group_cols = NULL) {
   group_vars <- c("group", "MIU_VALVE", group_cols) |>
     purrr::discard(is.null)

@@ -4,12 +4,7 @@
 \alias{plot_raw_data}
 \title{Plot raw flux chamber data}
 \usage{
-plot_raw_data(
-  small_raw_dataset,
-  cutoff_start = 200,
-  cutoff_end = 540,
-  group_cols = NULL
-)
+plot_raw_data(small_raw_dataset, cutoff_start, cutoff_end, group_cols = NULL)
 }
 \arguments{
 \item{small_raw_dataset}{Data frame containing raw flux data.

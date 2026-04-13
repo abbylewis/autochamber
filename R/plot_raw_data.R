@@ -15,8 +15,8 @@
 #' @return A plotly object
 #' @export
 plot_raw_data <- function(small_raw_dataset,
-                          cutoff_start = 200,
-                          cutoff_end = 540,
+                          cutoff_start,
+                          cutoff_end,
                           group_cols = NULL) {
   # -----------------------------
   # Don't run if data is too long

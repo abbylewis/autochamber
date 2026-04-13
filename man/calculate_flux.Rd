@@ -4,12 +4,7 @@
 \alias{calculate_flux}
 \title{calculate_flux}
 \usage{
-calculate_flux(
-  data_small,
-  cutoff_start = NA,
-  cutoff_end = NA,
-  group_cols = NULL
-)
+calculate_flux(data_small, cutoff_start, cutoff_end, group_cols = NULL)
 }
 \arguments{
 \item{data_small}{dataset. Must contain columns for MIU_VALVE, TIMESTAMP,
