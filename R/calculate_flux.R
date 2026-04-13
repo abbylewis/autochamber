@@ -30,6 +30,9 @@
 #'   combined in data_small)
 #'
 #' @return L0 slopes
+#' @export
+#' 
+#' @examples
 calculate_flux <- function(data_small,
                            cutoff_start = NA,
                            cutoff_end = NA,
@@ -143,7 +146,8 @@ calculate_flux <- function(data_small,
       names_glue = "{gas}_{.value}"
     ) %>%
     
-    full_join(data_flags) %>%
+    full_join(data_flags,
+              by = c(group_vars, "TIMESTAMP")) %>%
     
     mutate(
       n = ifelse(is.na(n), n_removed, n)

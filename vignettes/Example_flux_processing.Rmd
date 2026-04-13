@@ -28,6 +28,25 @@ head(data_small_genx)
 head(data_small_chapada)
 ```
 
+Look at recent raw data
+
+```{r}
+recent_raw_genx <- generate_recent_raw(
+  data_small_genx,
+  today = as_date(max(data_small_genx$TIMESTAMP)))
+
+recent_raw_chapada <- generate_recent_raw(
+  data_small_chapada,
+  group_col = "location",
+  today = as_date(max(data_small_genx$TIMESTAMP)))
+```
+
+Visualize
+
+```{r}
+
+```
+
 Calculate fluxes
 
 ```{r}
@@ -42,23 +61,18 @@ chapada_fluxes <- calculate_flux(data_small_chapada,
                                  group_col = "location")
 ```
 
-Look at recent raw data
-
-```{r}
-recent_raw_genx <- generate_recent_raw(
-  data_small_genx,
-  today = as_date(max(data_small_genx$TIMESTAMP)))
-
-recent_raw_chapada <- generate_recent_raw(
-  data_small_chapada,
-  group_col = "location",
-  today = as_date(max(data_small_genx$TIMESTAMP)))
-```
-
 Add maintenance log
 
 ```{r}
-add_maintenance_log()
+genx_fluxes_cleaned <- 
+  add_maintenance_log(slopes = genx_fluxes,
+                      gs_url =  "http://docs.google.com/spreadsheets/d/1_uk8-335NDJOdVU6OjLcxWx4MamNJeVEbVkSmdb9oRs/edit?gid=0#gid=0"
+  )
+
+chapada_fluxes_cleaned <- 
+  add_maintenance_log(slopes = chapada_fluxes,
+                      gs_url =  "https://docs.google.com/spreadsheets/d/103PpjEmjLAQkov9ywjA5KxyJiIP3nEWy7V8gWVZhd1M/edit?gid=0#gid=0"
+  )
 ```
 
 Partition
