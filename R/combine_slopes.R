@@ -4,6 +4,7 @@
 #' @param old older slope file
 #'
 #' @returns combined slopes
+#' @export
 #'
 combine_slopes <- function(new, old) {
   old_slopes <- old |>
