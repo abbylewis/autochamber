@@ -24,5 +24,7 @@ Imports:
     tidyr,
     lubridate,
     stats,
-    purrr
+    purrr,
+    readr,
+    stringr
 LazyData: true

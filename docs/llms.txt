@@ -48,6 +48,12 @@ Full workflow vignette:
   : Generate recent raw data
 - [`group_fun()`](https://abbylewis.github.io/autochamber/reference/group_fun.md)
   : Assign groups for separate readings
+- [`load_loggernet_flux_data()`](https://abbylewis.github.io/autochamber/reference/load_loggernet_flux_data.md)
+  : Load and combine data
+- [`load_single_file_chapada()`](https://abbylewis.github.io/autochamber/reference/load_single_file_chapada.md)
+  : Load data- ChapadaSTEM
+- [`load_single_file_genx()`](https://abbylewis.github.io/autochamber/reference/load_single_file_genx.md)
+  : Load data- GENX
 - [`plot_calculated_fluxes()`](https://abbylewis.github.io/autochamber/reference/plot_calculated_fluxes.md)
   : Plot calculated fluxes
 - [`plot_raw_data()`](https://abbylewis.github.io/autochamber/reference/plot_raw_data.md)

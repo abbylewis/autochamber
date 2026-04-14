@@ -18,6 +18,11 @@ knitr::opts_chunk$set(
 ## Load package
 
 ```{r setup, warning=FALSE, message=FALSE}
+# download package, if needed
+# install.packages("remotes")
+# remotes::install_github("abbylewis/autochamber")
+
+# load package
 library(autochamber)
 ```
 
@@ -26,21 +31,15 @@ library(autochamber)
 This package includes two example datasets, `data_small_genx` and `data_small_chapada`. Each of these datasets includes a few days of automated flux chamber data. Columns include:
 
 -   `TIMESTAMP`: time of sample
-
 -   `CH4d_ppm`: methane concentration (ppm)
-
 -   `CO2d_ppm`: carbon dioxide concentration (ppm)
-
 -   `N2Od_ppm`: nitrous oxide concentration (ppm). Note that this is not included in `data_small_chapada` (not measured)
-
 -   `MIU_VALVE`: ID number for chamber being sampled at any given time
-
 -   `Manifold_Timer` (time in seconds output from sampling manifold)
 
 You will notice that `data_small_genx` also has a column `Format`, while `data_small_chapada` has columns for `location` and `Flux_Status`.
 
 -   `location` is an example of a grouping variable that may be relevant to flux processing. `data_small_chapada` includes data from two gas analyzers, which are differentiated by the `location` column. This will need to be specified in many of the functions below.
-
 -   Conversely, `Format` and `Flux_Status` are not needed for the current flux processing workflow, and they will be ignored and ultimately removed throughout the functions below.
 
 ```{r look}
@@ -130,17 +129,11 @@ For each project, we have created maintenance logs that record any intervals of 
 When adapting this workflow for other projects, the maintenance log will need to follow the same general format. The sheet needs to be set so that anyone with the link can view. Column order does not matter, but column name and capitalization does.
 
 -   `Start_time`: Start of the window of time that should be flagged
-
 -   `End_time`: End time
-
 -   `Description`: Text description of why this period is being flagged
-
 -   `Chambers`: Which chambers does this apply to
-
 -   `Analyzer`: Type of gas analyzer. Options are `CO2/CH4`, `N2O`, and `all`
-
 -   `Flag`: Short text flag that will be added to data. E.g., "Chamber maintenance"
-
 -   `Remove`: Whether or not to remove data in this window (y/n)
 
 Grouping columns should be included in the maintenance log. For example, you will see `location` in the Chapada maintenance log.
@@ -191,6 +184,6 @@ plot_calculated_fluxes(
 )
 ```
 
-## Ta da! 
+## Ta da!
 
 That's all for now! Please reach out to Abby Lewis (abigail.sl.lewis\@gmail.com) if you have any questions or concerns. Requests for new features can be added as Issues within the GitHub repository for this project.

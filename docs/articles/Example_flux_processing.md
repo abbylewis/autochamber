@@ -3,6 +3,11 @@
 ## Load package
 
 ``` r
+# download package, if needed
+# install.packages("remotes")
+# remotes::install_github("abbylewis/autochamber")
+
+# load package
 library(autochamber)
 ```
 
@@ -13,16 +18,11 @@ This package includes two example datasets, `data_small_genx` and
 automated flux chamber data. Columns include:
 
 - `TIMESTAMP`: time of sample
-
 - `CH4d_ppm`: methane concentration (ppm)
-
 - `CO2d_ppm`: carbon dioxide concentration (ppm)
-
 - `N2Od_ppm`: nitrous oxide concentration (ppm). Note that this is not
   included in `data_small_chapada` (not measured)
-
 - `MIU_VALVE`: ID number for chamber being sampled at any given time
-
 - `Manifold_Timer` (time in seconds output from sampling manifold)
 
 You will notice that `data_small_genx` also has a column `Format`, while
@@ -32,7 +32,6 @@ You will notice that `data_small_genx` also has a column `Format`, while
   to flux processing. `data_small_chapada` includes data from two gas
   analyzers, which are differentiated by the `location` column. This
   will need to be specified in many of the functions below.
-
 - Conversely, `Format` and `Flux_Status` are not needed for the current
   flux processing workflow, and they will be ignored and ultimately
   removed throughout the functions below.
@@ -182,19 +181,13 @@ that anyone with the link can view. Column order does not matter, but
 column name and capitalization does.
 
 - `Start_time`: Start of the window of time that should be flagged
-
 - `End_time`: End time
-
 - `Description`: Text description of why this period is being flagged
-
 - `Chambers`: Which chambers does this apply to
-
 - `Analyzer`: Type of gas analyzer. Options are `CO2/CH4`, `N2O`, and
   `all`
-
 - `Flag`: Short text flag that will be added to data. E.g., “Chamber
   maintenance”
-
 - `Remove`: Whether or not to remove data in this window (y/n)
 
 Grouping columns should be included in the maintenance log. For example,
@@ -208,20 +201,6 @@ genx_fluxes_cleaned <-
   )
 #> ✔ Reading from GenX QAQC log.
 #> ✔ Range Sheet1.
-#> ✖ Request 1 failed [429: RESOURCE_EXHAUSTED].
-#> ℹ Will retry in 1.8s.
-#> ✖ Request 2 failed [429: RESOURCE_EXHAUSTED].
-#> ℹ Will retry in 8s.
-#> ⠙ Retry happens in  8s
-#> ⠹ Retry happens in  5s
-#> ⠸ Retry happens in  2s
-#> ✖ Request 3 failed [429: RESOURCE_EXHAUSTED].
-#> ⠸ Retry happens in  2sℹ Will retry in 4.2s.
-#> ⠸ Retry happens in  2s⠸ Retry happens in  0s
-#> ⠙ Retry happens in  4s
-#> ⠹ Retry happens in  1s
-#> ✔ Request 4 successful!
-#> ⠹ Retry happens in  1s⠹ Retry happens in  0s
 
 chapada_fluxes_cleaned <-
   add_maintenance_log(
