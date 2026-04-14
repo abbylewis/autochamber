@@ -13,7 +13,7 @@ A data frame with 80,130 rows and 7 columns:
 \item{TIMESTAMP}{Timestamp}
 \item{CH4d_ppm}{Methane concentration (ppm)}
 \item{CO2d_ppm}{Carbon dioxide concentration (ppm)}
-\item{Fluxing_Chamber}{Sampling valve (chamber)}
+\item{Chamber}{Sampling chamber}
 \item{Manifold_Timer}{Time since switching to this valve}
 \item{Flux_Status}{Status of chamber (e.g., open/closed)}
 ...
@@ -21,7 +21,7 @@ A data frame with 80,130 rows and 7 columns:
 }
 }
 \source{
-\url{https://serc.si.edu/labs/biogeochemistry-projects/genx}
+\url{https://smithsonian.github.io/Chapada_Stem/}
 }
 \usage{
 data_small_chapada
