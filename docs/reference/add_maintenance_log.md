@@ -1,6 +1,8 @@
 # Add maintenance log
 
-Add maintenance log
+This function uses a maintenance log on Google Sheets to identify
+periods of time in a flux dataframe that should be flagged and
+potentially removed (set to NA).
 
 ## Usage
 

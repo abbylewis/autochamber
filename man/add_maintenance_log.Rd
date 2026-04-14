@@ -17,5 +17,7 @@ add_maintenance_log(slopes, gs_url, group_cols = NULL)
 Updated slopes with maintenance applied
 }
 \description{
-Add maintenance log
+This function uses a maintenance log on Google Sheets to identify periods
+of time in a flux dataframe that should be flagged and potentially removed
+(set to NA).
 }

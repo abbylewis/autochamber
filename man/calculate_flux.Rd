@@ -18,6 +18,9 @@ interval (in seconds)}
 
 \item{group_cols}{Optional grouping variable. See details}
 }
+\value{
+Dataframe of calculated fluxes
+}
 \description{
 Calculate linear rate of change in CO2, CH4, and/or N2O for each flux interval
 }

@@ -3,9 +3,6 @@
 # TO DO filter(!is.na(MIU_VALVE), MIU_VALVE %in% 1:12) upstream
 # TO DO right now this renames Fluxing_Chamber to MIU_VALVE.
 
-
-# requires zoo, tidyverse
-
 #' calculate_flux
 #'
 #' @description
@@ -26,6 +23,8 @@
 #'   timestamp and chamber index, but additional grouping columns can be
 #'   identified in group_cols (e.g., if data from multiple gas analyzers are
 #'   combined in data_small)
+#'   
+#' @returns Dataframe of calculated fluxes
 #'
 #' @export
 calculate_flux <- function(data_small,

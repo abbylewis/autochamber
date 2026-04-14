@@ -30,6 +30,10 @@ calculate_flux(data_small, cutoff_start, cutoff_end, group_cols = NULL)
 
   Optional grouping variable. See details
 
+## Value
+
+Dataframe of calculated fluxes
+
 ## Details
 
 This function calculates the linear rate of change in gas (CO2, CH4,

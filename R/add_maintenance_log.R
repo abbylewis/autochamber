@@ -3,8 +3,14 @@
 #' @param slopes Calculated slopes
 #' @param gs_url Google sheets URL for maintenance log
 #' @param group_cols Columns to group by. Must be in data and maintenance log
+#' 
+#' @description
+#' This function uses a maintenance log on Google Sheets to identify periods 
+#' of time in a flux dataframe that should be flagged and potentially removed 
+#' (set to NA). 
 #'
 #' @returns Updated slopes with maintenance applied
+#' 
 #' @export
 add_maintenance_log <- function(slopes,
                                 gs_url,
