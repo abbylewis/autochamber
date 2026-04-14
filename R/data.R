@@ -9,7 +9,7 @@
 #'   \item{CH4d_ppm}{Methane concentration (ppm)}
 #'   \item{CO2d_ppm}{Carbon dioxide concentration (ppm)}
 #'   \item{N2Od_ppm}{Nitrous oxide concentration (ppm)}
-#'   \item{MIU_VALVE}{Sampling valve (chamber)}
+#'   \item{Chamber}{Sampling chamber}
 #'   \item{Manifold_Timer}{Time since switching to this valve}
 #'   \item{Format}{Data format (only NEW works for this processing code)}
 #'   ...
@@ -26,10 +26,10 @@
 #'   \item{TIMESTAMP}{Timestamp}
 #'   \item{CH4d_ppm}{Methane concentration (ppm)}
 #'   \item{CO2d_ppm}{Carbon dioxide concentration (ppm)}
-#'   \item{Fluxing_Chamber}{Sampling valve (chamber)}
+#'   \item{Chamber}{Sampling chamber}
 #'   \item{Manifold_Timer}{Time since switching to this valve}
 #'   \item{Flux_Status}{Status of chamber (e.g., open/closed)}
 #'   ...
 #' }
-#' @source <https://serc.si.edu/labs/biogeochemistry-projects/genx>
+#' @source <https://smithsonian.github.io/Chapada_Stem/>
 "data_small_chapada"

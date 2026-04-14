@@ -12,7 +12,7 @@ generate_recent_raw(
 )
 }
 \arguments{
-\item{data_small}{dataset. Must contain columns for MIU_VALVE, TIMESTAMP,
+\item{data_small}{dataset. Must contain columns for Chamber, TIMESTAMP,
 and CH4d_ppm/CO2d_ppm/N2Od_ppm}
 
 \item{today}{Latest date of flux data requested}

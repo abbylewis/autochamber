@@ -8,7 +8,7 @@ plot_raw_data(small_raw_dataset, cutoff_start, cutoff_end, group_cols = NULL)
 }
 \arguments{
 \item{small_raw_dataset}{Data frame containing raw flux data.
-Must include TIMESTAMP, Manifold_Timer, MIU_VALVE (or Chamber), and gas columns.}
+Must include TIMESTAMP, Manifold_Timer, Chamber, and gas columns.}
 
 \item{cutoff_start}{Numeric. Start of flux window in seconds.}
 

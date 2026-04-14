@@ -13,7 +13,7 @@ A data frame with 73,800 rows and 7 columns:
 \item{CH4d_ppm}{Methane concentration (ppm)}
 \item{CO2d_ppm}{Carbon dioxide concentration (ppm)}
 \item{N2Od_ppm}{Nitrous oxide concentration (ppm)}
-\item{MIU_VALVE}{Sampling valve (chamber)}
+\item{Chamber}{Sampling chamber}
 \item{Manifold_Timer}{Time since switching to this valve}
 \item{Format}{Data format (only NEW works for this processing code)}
 ...

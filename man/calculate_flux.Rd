@@ -7,7 +7,7 @@
 calculate_flux(data_small, cutoff_start, cutoff_end, group_cols = NULL)
 }
 \arguments{
-\item{data_small}{dataset. Must contain columns for MIU_VALVE, TIMESTAMP,
+\item{data_small}{dataset. Must contain columns for Chamber, TIMESTAMP,
 and CH4d_ppm/CO2d_ppm/N2Od_ppm}
 
 \item{cutoff_start}{Amount of time to remove after the start of the flux

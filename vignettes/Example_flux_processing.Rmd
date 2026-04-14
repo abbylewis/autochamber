@@ -34,7 +34,7 @@ This package includes two example datasets, `data_small_genx` and `data_small_ch
 -   `CH4d_ppm`: methane concentration (ppm)
 -   `CO2d_ppm`: carbon dioxide concentration (ppm)
 -   `N2Od_ppm`: nitrous oxide concentration (ppm). Note that this is not included in `data_small_chapada` (not measured)
--   `MIU_VALVE`: ID number for chamber being sampled at any given time
+-   `Chamber`: ID number for chamber being sampled at any given time
 -   `Manifold_Timer` (time in seconds output from sampling manifold)
 
 You will notice that `data_small_genx` also has a column `Format`, while `data_small_chapada` has columns for `location` and `Flux_Status`.

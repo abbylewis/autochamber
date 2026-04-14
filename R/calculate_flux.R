@@ -1,14 +1,9 @@
-# TO DO warning message for negative values set to NA
-# TO DO deal with ppb upstream
-# TO DO filter(!is.na(MIU_VALVE), MIU_VALVE %in% 1:12) upstream
-# TO DO right now this renames Fluxing_Chamber to MIU_VALVE.
-
 #' calculate_flux
 #'
 #' @description
 #' Calculate linear rate of change in CO2, CH4, and/or N2O for each flux interval
 #'
-#' @param data_small dataset. Must contain columns for MIU_VALVE, TIMESTAMP,
+#' @param data_small dataset. Must contain columns for Chamber, TIMESTAMP,
 #'   and CH4d_ppm/CO2d_ppm/N2Od_ppm
 #' @param cutoff_start Amount of time to remove after the start of the flux
 #'    interval (in seconds)
@@ -31,17 +26,10 @@ calculate_flux <- function(data_small,
                            cutoff_start,
                            cutoff_end,
                            group_cols = NULL) {
-  group_vars <- c("group", "MIU_VALVE", group_cols) |>
+  # --- Identify all grouping variables ---
+  # Note that "group" will be created later
+  group_vars <- c("group", "Chamber", group_cols) |>
     purrr::discard(is.null)
-
-  # --- Standardize column names ---
-  if (!"MIU_VALVE" %in% names(data_small)) {
-    if ("Fluxing_Chamber" %in% names(data_small)) {
-      data_small <- dplyr::rename(data_small, MIU_VALVE = Fluxing_Chamber)
-    } else {
-      stop("No column found for chamber ID (expected MIU_VALVE or Fluxing_Chamber)")
-    }
-  }
 
   # --- Detect available gases ---
   gas_cols_all <- c("CH4d_ppm", "CO2d_ppm", "N2Od_ppm")
@@ -51,7 +39,7 @@ calculate_flux <- function(data_small,
   data_numeric <- data_small |>
     dplyr::mutate(
       dplyr::across(
-        dplyr::all_of(c(gas_cols_present, "Manifold_Timer", "MIU_VALVE")),
+        dplyr::all_of(c(gas_cols_present, "Manifold_Timer", "Chamber")),
         as.numeric
       )
     ) |>
@@ -74,7 +62,7 @@ calculate_flux <- function(data_small,
   }
 
   grouped_data <- grouped_data |>
-    dplyr::mutate(group = group_fun(MIU_VALVE)) |>
+    dplyr::mutate(group = group_fun(Chamber)) |>
     dplyr::group_by(dplyr::across(dplyr::all_of(group_vars))) |>
     dplyr::mutate(
       start = min(TIMESTAMP),

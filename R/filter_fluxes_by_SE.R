@@ -9,7 +9,7 @@ filter_fluxes_by_SE <- function(seasonal_fluxes,
                                 group_cols = NULL) {
   if (is.null(group_cols)) group_cols <- character(0)
 
-  join_cols <- c("MIU_VALVE", "flux_time", group_cols)
+  join_cols <- c("Chamber", "flux_time", group_cols)
 
   # --- Prep ---
   seasonal_fluxes <- seasonal_fluxes |>
@@ -20,7 +20,7 @@ filter_fluxes_by_SE <- function(seasonal_fluxes,
 
   # --- QA/QC ---
   filt <- seasonal_fluxes |>
-    dplyr::group_by(dplyr::across(dplyr::all_of(c("MIU_VALVE", group_cols)))) |>
+    dplyr::group_by(dplyr::across(dplyr::all_of(c("Chamber", group_cols)))) |>
     dplyr::mutate(
       cutoff_ch4 = mean(CH4_se, na.rm = TRUE) + 3 * sd(CH4_se, na.rm = TRUE),
       keep_ch4 = !is.na(CH4_se) & CH4_se < cutoff_ch4,
@@ -56,7 +56,7 @@ filter_fluxes_by_SE <- function(seasonal_fluxes,
   # --- Stats ---
   stats <- seasonal_fluxes |>
     dplyr::left_join(removal, by = join_cols) |>
-    dplyr::group_by(dplyr::across(dplyr::all_of(c("MIU_VALVE", group_cols)))) |>
+    dplyr::group_by(dplyr::across(dplyr::all_of(c("Chamber", group_cols)))) |>
     dplyr::summarize(
       n_removed_ch4 = sum(!keep_ch4 & !is.na(CH4_slope_ppm_per_day), na.rm = TRUE),
       pct_ch4 = n_removed_ch4 / sum(!is.na(CH4_slope_ppm_per_day)) * 100,
@@ -66,7 +66,7 @@ filter_fluxes_by_SE <- function(seasonal_fluxes,
     )
 
   # --- Message ---
-  group_display_cols <- c("MIU_VALVE", group_cols)
+  group_display_cols <- c("Chamber", group_cols)
 
   msg <- stats |>
     tidyr::unite(

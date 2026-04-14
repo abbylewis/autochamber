@@ -34,7 +34,7 @@ add_maintenance_log <- function(slopes,
   for (i in seq_len(nrow(maint_log))) {
     condition <- slopes$TIMESTAMP <= maint_log$End_time[i] &
       slopes$TIMESTAMP >= maint_log$Start_time[i] &
-      slopes$MIU_VALVE %in% eval(parse(text = maint_log$Chambers[i]))
+      slopes$Chamber %in% eval(parse(text = maint_log$Chambers[i]))
 
     # --- Apply grouping filters ---
     if (length(group_cols) > 0) {

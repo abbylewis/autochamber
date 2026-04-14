@@ -4,10 +4,10 @@
 \alias{group_fun}
 \title{Assign groups for separate readings}
 \usage{
-group_fun(MIU_VALVE)
+group_fun(Chamber)
 }
 \arguments{
-\item{MIU_VALVE}{Chamber number}
+\item{Chamber}{Chamber number}
 }
 \value{
 group number

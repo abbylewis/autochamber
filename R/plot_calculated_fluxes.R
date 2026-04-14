@@ -4,7 +4,7 @@
 #' Visualize calculated fluxes with optional grouping.
 #'
 #' @param slopes Data frame containing calculated fluxes.
-#' Must include TIMESTAMP, MIU_VALVE, and gas columns (e.g., CH4, CO2, N2O).
+#' Must include TIMESTAMP, Chamber, and gas columns (e.g., CH4, CO2, N2O).
 #'
 #' @param group_cols Optional character vector of grouping variables.
 #' @param start_date Optional start date
@@ -24,8 +24,8 @@ plot_calculated_fluxes <- function(
   # Standardize column names
   # -----------------------------
 
-  if (!"MIU_VALVE" %in% names(slopes)) {
-    stop("slopes must contain MIU_VALVE")
+  if (!"Chamber" %in% names(slopes)) {
+    stop("slopes must contain Chamber")
   }
 
   if (!"TIMESTAMP" %in% names(slopes)) {
@@ -69,7 +69,7 @@ plot_calculated_fluxes <- function(
   # -----------------------------
 
   plot_df <- slopes |>
-    dplyr::rename(Chamber = MIU_VALVE) |>
+    dplyr::rename(Chamber = Chamber) |>
     dplyr::select(
       dplyr::all_of(c("TIMESTAMP", "Chamber", group_cols, gas_cols))
     ) |>

@@ -14,7 +14,7 @@ plot_calculated_fluxes(
 }
 \arguments{
 \item{slopes}{Data frame containing calculated fluxes.
-Must include TIMESTAMP, MIU_VALVE, and gas columns (e.g., CH4, CO2, N2O).}
+Must include TIMESTAMP, Chamber, and gas columns (e.g., CH4, CO2, N2O).}
 
 \item{group_cols}{Optional character vector of grouping variables.}
 

@@ -62,27 +62,31 @@ load_single_file_genx <- function(file) {
         !duplicated(CH4d_ppm)) |> # I've spent some time looking into this and there are some duplicated LGR rows
       dplyr::mutate(
         Manifold_Timer = NA,
-        N2Od_ppb = NA
+        N2Od_pm = NA
       ) |>
       dplyr::mutate(Format = "OLD") |>
       dplyr::select(
-        TIMESTAMP, CH4d_ppm, CO2d_ppm, N2Od_ppb, MIU_VALVE,
+        TIMESTAMP, CH4d_ppm, CO2d_ppm, N2Od_ppm, MIU_VALVE,
         Manifold_Timer, Format
       )
   } else {
     data_small <- data_raw |>
       dplyr::mutate(
         Manifold_Timer = NA,
-        N2Od_ppb = NA
+        N2Od_ppm = NA
       ) |>
       dplyr::mutate(Format = "OLD") |>
       dplyr::select(
-        TIMESTAMP, CH4d_ppm, CO2d_ppm, N2Od_ppb, MIU_VALVE,
+        TIMESTAMP, CH4d_ppm, CO2d_ppm, N2Od_ppm, MIU_VALVE,
         Manifold_Timer, Format
       )
   }
+  
+  data_output <- data_small |>
+    dplyr::filter(!is.na(MIU_VALVE), MIU_VALVE %in% 1:12) |>
+    dplyr::rename(Chamber = MIU_VALVE)
 
-  return(data_small)
+  return(data_output)
 }
 
 #' Load data- ChapadaSTEM
@@ -113,7 +117,8 @@ load_single_file_chapada <- function(file) {
     dplyr::select(
       location, TIMESTAMP, CH4d_ppm, CO2d_ppm,
       Fluxing_Chamber, Manifold_Timer, Flux_Status
-    )
+    ) |>
+    dplyr::rename(Chamber = Fluxing_Chamber)
 
   return(data_small)
 }

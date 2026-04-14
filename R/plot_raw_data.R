@@ -4,7 +4,7 @@
 #' Visualize raw chamber concentration data, separated by flux interval
 #'
 #' @param small_raw_dataset Data frame containing raw flux data.
-#' Must include TIMESTAMP, Manifold_Timer, MIU_VALVE (or Chamber), and gas columns.
+#' Must include TIMESTAMP, Manifold_Timer, Chamber, and gas columns.
 #'
 #' @param cutoff_start Numeric. Start of flux window in seconds.
 #'
@@ -31,21 +31,6 @@ plot_raw_data <- function(small_raw_dataset,
   }
 
   # -----------------------------
-  # Standardize column names
-  # -----------------------------
-
-  if (!"MIU_VALVE" %in% names(small_raw_dataset)) {
-    if ("Fluxing_Chamber" %in% names(small_raw_dataset)) {
-      small_raw_dataset <- dplyr::rename(
-        small_raw_dataset,
-        MIU_VALVE = Fluxing_Chamber
-      )
-    } else {
-      stop("Dataset must contain MIU_VALVE or Fluxing_Chamber")
-    }
-  }
-
-  # -----------------------------
   # Detect gas columns
   # -----------------------------
 
@@ -66,7 +51,7 @@ plot_raw_data <- function(small_raw_dataset,
         dplyr::all_of(c(gas_cols, "Manifold_Timer")),
         as.numeric
       ),
-      MIU_VALVE = as.factor(MIU_VALVE)
+      Chamber = as.factor(Chamber)
     ) |>
     tidyr::pivot_longer(
       cols = dplyr::all_of(gas_cols),
@@ -124,14 +109,14 @@ plot_raw_data <- function(small_raw_dataset,
       y = value,
       alpha = used,
       shape = used,
-      color = MIU_VALVE
+      color = Chamber
     )
   ) +
     ggplot2::geom_point(size = 0.9) +
     ggplot2::geom_smooth(
       data = dplyr::filter(raw_plot, used == "yes"),
       ggplot2::aes(
-        group = interaction(group, gas, MIU_VALVE),
+        group = interaction(group, gas, Chamber),
         x = secs,
         y = value
       ),
@@ -159,6 +144,6 @@ plot_raw_data <- function(small_raw_dataset,
 
   plotly::ggplotly(
     p1,
-    tooltip = c("TIMESTAMP", "value", "MIU_VALVE")
+    tooltip = c("TIMESTAMP", "value", "Chamber")
   )
 }

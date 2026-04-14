@@ -3,7 +3,7 @@
 #' @description
 #' Generate an output file of recent raw data
 #'
-#' @param data_small dataset. Must contain columns for MIU_VALVE, TIMESTAMP,
+#' @param data_small dataset. Must contain columns for Chamber, TIMESTAMP,
 #'   and CH4d_ppm/CO2d_ppm/N2Od_ppm
 #' @param today Latest date of flux data requested
 #' @param group_cols Optional grouping variable
@@ -15,17 +15,8 @@ generate_recent_raw <- function(data_small,
                                 today = Sys.Date(),
                                 group_cols = NULL,
                                 days = 7) {
-  group_vars <- c("group", "MIU_VALVE", group_cols) |>
+  group_vars <- c("group", "Chamber", group_cols) |>
     purrr::discard(is.null)
-
-  # --- Standardize column names ---
-  if (!"MIU_VALVE" %in% names(data_small)) {
-    if ("Fluxing_Chamber" %in% names(data_small)) {
-      data_small <- dplyr::rename(data_small, MIU_VALVE = Fluxing_Chamber)
-    } else {
-      stop("No column found for chamber ID (expected MIU_VALVE or Fluxing_Chamber)")
-    }
-  }
 
   # --- Detect available gases ---
   gas_cols_all <- c("CH4d_ppm", "CO2d_ppm", "N2Od_ppm")
@@ -40,7 +31,7 @@ generate_recent_raw <- function(data_small,
   data_numeric <- data_recent |>
     dplyr::mutate(
       dplyr::across(
-        dplyr::all_of(c(gas_cols_present, "Manifold_Timer", "MIU_VALVE")),
+        dplyr::all_of(c(gas_cols_present, "Manifold_Timer", "Chamber")),
         as.numeric
       )
     ) |>
@@ -64,7 +55,7 @@ generate_recent_raw <- function(data_small,
   }
 
   grouped_data <- grouped_data |>
-    dplyr::mutate(group = group_fun(MIU_VALVE)) |>
+    dplyr::mutate(group = group_fun(Chamber)) |>
     dplyr::group_by(dplyr::across(dplyr::all_of(group_vars))) |>
     dplyr::mutate(
       start = min(TIMESTAMP),
