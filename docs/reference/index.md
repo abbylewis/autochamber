@@ -6,6 +6,8 @@
   : Add maintenance log
 - [`calculate_flux()`](https://abbylewis.github.io/autochamber/reference/calculate_flux.md)
   : calculate_flux
+- [`choose_files()`](https://abbylewis.github.io/autochamber/reference/choose_files.md)
+  : Choose files
 - [`combine_slopes()`](https://abbylewis.github.io/autochamber/reference/combine_slopes.md)
   : Combine slopes
 - [`data_small_chapada`](https://abbylewis.github.io/autochamber/reference/data_small_chapada.md)

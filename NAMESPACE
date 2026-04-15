@@ -2,6 +2,7 @@
 
 export(add_maintenance_log)
 export(calculate_flux)
+export(choose_files)
 export(combine_slopes)
 export(filter_fluxes_by_SE)
 export(generate_recent_raw)
