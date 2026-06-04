@@ -26,6 +26,11 @@ generate_recent_raw <- function(data_small,
   data_recent <- data_small |>
     dplyr::mutate(date = lubridate::as_date(TIMESTAMP)) |>
     dplyr::filter(date >= lubridate::as_date(today) - lubridate::days(days))
+  
+  if(nrow(data_recent) == 0){
+    warning(paste0("No data detected within the past ", days, " days"))
+    return()
+  }
 
   # --- Format data ---
   data_numeric <- data_recent |>
