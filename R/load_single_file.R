@@ -23,6 +23,7 @@ load_single_file_genx <- function(file) {
         CH4d_ppm = GENX_CH4ppm,
         CO2d_ppm = GENX_CO2ppm,
         N2Od_ppb = GENX_N20ppb,
+        H2O_ppm = H2O_7810,
         MIU_VALVE = Fluxing_Chamber
       ) |>
       dplyr::mutate(
@@ -30,7 +31,7 @@ load_single_file_genx <- function(file) {
         N2Od_ppm = as.numeric(N2Od_ppb) / 1000
       ) |>
       dplyr::select(
-        TIMESTAMP, CH4d_ppm, CO2d_ppm, N2Od_ppm, MIU_VALVE,
+        TIMESTAMP, CH4d_ppm, CO2d_ppm, N2Od_ppm, H2O_ppm, MIU_VALVE,
         Manifold_Timer, Format
       )
   } else if ("GENX_CH4ppb" %in% colnames(data_raw)) {
@@ -49,11 +50,12 @@ load_single_file_genx <- function(file) {
       ) |>
       dplyr::rename(
         CO2d_ppm = GENX_CO2ppm,
+        H2O_ppm = H2O_7810,
         MIU_VALVE = Fluxing_Chamber
       ) |>
       dplyr::mutate(Format = "NEW") |>
       dplyr::select(
-        TIMESTAMP, CH4d_ppm, CO2d_ppm, N2Od_ppm, MIU_VALVE,
+        TIMESTAMP, CH4d_ppm, CO2d_ppm, N2Od_ppm, H2O_ppm, MIU_VALVE,
         Manifold_Timer, Format
       )
   } else if ("LGR_Time" %in% colnames(data_raw)) {
@@ -62,7 +64,7 @@ load_single_file_genx <- function(file) {
         !duplicated(CH4d_ppm)) |> # I've spent some time looking into this and there are some duplicated LGR rows
       dplyr::mutate(
         Manifold_Timer = NA,
-        N2Od_pm = NA
+        N2Od_ppm = NA
       ) |>
       dplyr::mutate(Format = "OLD") |>
       dplyr::select(

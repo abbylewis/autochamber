@@ -40,7 +40,7 @@ choose_files <- function(input_folder,
 
   if (length(files) == 0) {
     message("No files to process")
-    return(read_csv(l0_file_path, show_col_types = F))
+    return(NULL)
   }
 
   files <- files[!grepl(paste0(files_to_exclude, collapse = "|"), files)]
