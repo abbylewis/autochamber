@@ -32,7 +32,7 @@ calculate_flux <- function(data_small,
     purrr::discard(is.null)
 
   # --- Detect available gases ---
-  gas_cols_all <- c("CH4d_ppm", "CO2d_ppm", "N2Od_ppm")
+  gas_cols_all <- c("CH4d_ppm", "CO2d_ppm", "N2Od_ppm", "H2O_ppm")
   gas_cols_present <- gas_cols_all[gas_cols_all %in% names(data_small)]
 
   # --- Format data ---
@@ -131,6 +131,7 @@ calculate_flux <- function(data_small,
         gas == "CH4d_ppm" ~ "CH4",
         gas == "CO2d_ppm" ~ "CO2",
         gas == "N2Od_ppm" ~ "N2O",
+        gas == "H2Od_ppm" ~ "H2O",
         TRUE ~ gas
       )
     ) |>
