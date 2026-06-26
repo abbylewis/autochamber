@@ -28,7 +28,7 @@ load_single_file_genx <- function(file) {
       ) |>
       dplyr::mutate(
         Format = "NEW",
-        N2Od_ppm = as.numeric(N2Od_ppb) / 1000
+        N2Od_ppm = as.character(as.numeric(N2Od_ppb) / 1000)
       ) |>
       dplyr::select(
         TIMESTAMP, CH4d_ppm, CO2d_ppm, N2Od_ppm, H2O_ppm, MIU_VALVE,
@@ -43,10 +43,10 @@ load_single_file_genx <- function(file) {
           CH4d_ppm / 1000, CH4d_ppm
         )),
         N2Od_ppm = as.numeric(GENX_N20ppm),
-        N2Od_ppm = ifelse(as.numeric(N2Od_ppm) < 10000,
+        N2Od_ppm = as.character(ifelse(as.numeric(N2Od_ppm) < 10000,
           N2Od_ppm,
           N2Od_ppm / 1000
-        )
+        ))
       ) |>
       dplyr::rename(
         CO2d_ppm = GENX_CO2ppm,
