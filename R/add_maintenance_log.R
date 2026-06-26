@@ -53,7 +53,7 @@ add_maintenance_log <- function(slopes,
       dplyr::mutate(
         # CH4 + CO2 removal
         dplyr::across(
-          dplyr::matches("CH4|CO2") & !dplyr::contains("Flag"),
+          dplyr::matches("CH4|CO2|H2O") & !dplyr::contains("Flag"),
           ~ ifelse(
             remove_this_row &
               maint_log$Analyzer[i] %in% c("CO2/CH4", "all"),
