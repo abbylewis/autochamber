@@ -131,7 +131,7 @@ calculate_flux <- function(data_small,
         gas == "CH4d_ppm" ~ "CH4",
         gas == "CO2d_ppm" ~ "CO2",
         gas == "N2Od_ppm" ~ "N2O",
-        gas == "H2Od_ppm" ~ "H2O",
+        gas == "H2O_ppm" ~ "H2O",
         TRUE ~ gas
       )
     ) |>
