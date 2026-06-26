@@ -19,7 +19,7 @@ generate_recent_raw <- function(data_small,
     purrr::discard(is.null)
 
   # --- Detect available gases ---
-  gas_cols_all <- c("CH4d_ppm", "CO2d_ppm", "N2Od_ppm")
+  gas_cols_all <- c("CH4d_ppm", "CO2d_ppm", "N2Od_ppm", "H2O_ppm")
   gas_cols_present <- gas_cols_all[gas_cols_all %in% names(data_small)]
 
   # --- Trim to recent ---
