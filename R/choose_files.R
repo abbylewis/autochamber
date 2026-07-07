@@ -43,7 +43,9 @@ choose_files <- function(input_folder,
     return(NULL)
   }
 
-  files <- files[!grepl(paste0(files_to_exclude, collapse = "|"), files)]
+  if(!is.null(files_to_exclude)) {
+    files <- files[!grepl(paste0(files_to_exclude, collapse = "|"), files)]
+  }
 
   return(files)
 }

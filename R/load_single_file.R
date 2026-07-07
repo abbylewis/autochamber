@@ -30,10 +30,10 @@ load_single_file_genx <- function(file) {
         Format = "NEW",
         N2Od_ppm = as.character(as.numeric(N2Od_ppb) / 1000)
       ) |>
-      dplyr::select(
-        TIMESTAMP, CH4d_ppm, CO2d_ppm, N2Od_ppm, H2O_ppm, MIU_VALVE,
-        Manifold_Timer, Format
-      )
+      dplyr::select(any_of(c(
+        "TIMESTAMP", "CH4d_ppm", "CO2d_ppm", "N2Od_ppm", "H2O_ppm", 
+        "MIU_VALVE", "Diag_7810", "Diag_7820", "Manifold_Timer", "Format"
+      )))
   } else if ("GENX_CH4ppb" %in% colnames(data_raw)) {
     message(file, " has CH4ppb")
     data_small <- data_raw |>
@@ -85,7 +85,6 @@ load_single_file_genx <- function(file) {
   }
   
   data_output <- data_small |>
-    dplyr::filter(!is.na(MIU_VALVE), MIU_VALVE %in% 1:12) |>
     dplyr::rename(Chamber = MIU_VALVE)
 
   return(data_output)
