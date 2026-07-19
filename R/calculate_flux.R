@@ -10,6 +10,8 @@
 #' @param cutoff_end End of flux, as determined from the start of the flux
 #'    interval (in seconds)
 #' @param group_cols Optional grouping variable. See details
+#' @param ebullition_cutoff Rolling variance threshold for ebullition
+#' @param ebullition_window Number of observations used to calculate rolling variance
 #'
 #' @details This function calculates the linear rate of change in gas (CO2, CH4,
 #'   and/or N2O) concentrations. The function requires a dataframe of input data
@@ -17,7 +19,8 @@
 #'   a column with the chamber index. By default, fluxes are grouped by
 #'   timestamp and chamber index, but additional grouping columns can be
 #'   identified in group_cols (e.g., if data from multiple gas analyzers are
-#'   combined in data_small)
+#'   combined in data_small). Ebullition events are identified based on rolling
+#'   variance, with the threshold and rolling window provided as parameters. 
 #'   
 #' @returns Dataframe of calculated fluxes
 #'
@@ -25,7 +28,9 @@
 calculate_flux <- function(data_small,
                            cutoff_start,
                            cutoff_end,
-                           group_cols = NULL) {
+                           group_cols = NULL,
+                           ebullition_cutoff = 0.001,
+                           ebullition_window = 5) {
   # --- Identify all grouping variables ---
   # Note that "group" will be created later
   group_vars <- c("group", "Chamber", group_cols) |>
@@ -98,7 +103,36 @@ calculate_flux <- function(data_small,
       n_removed = unique(n),
       .groups = "drop"
     )
-
+  
+  eb_by_roll_var <- filtered_data |>
+    dplyr::mutate(
+      delta = CH4d_ppm - lag(CH4d_ppm),
+      run_var = RcppRoll::roll_var(CH4d_ppm, 5, fill = NA),
+      ebullition = run_var > ebullition_cutoff & 
+        delta > 0
+    ) |>
+    dplyr::group_by(dplyr::across(dplyr::all_of(group_vars))) |>
+    dplyr::summarize(
+      ebullition = sum(ebullition, na.rm = T) > 0,
+      CH4_slope_ppm_per_day_ebullition = (dplyr::last(CH4d_ppm) - dplyr::first(CH4d_ppm)) /
+        (dplyr::last(change_s) - dplyr::first(change_s)) *60*60*24,
+      .groups = "drop") |>
+    dplyr::mutate(
+      #Can't have negative ebullition
+      ebullition = ifelse(
+        CH4_slope_ppm_per_day_ebullition < 0,
+        F,
+        ebullition),
+      #Don't record ebullition flux if not ebullition
+      CH4_slope_ppm_per_day_ebullition = ifelse(
+        !ebullition,
+        NA,
+        CH4_slope_ppm_per_day_ebullition)) |>
+    dplyr::select(dplyr::all_of(c(
+      group_vars, 
+      "ebullition", 
+      "CH4_slope_ppm_per_day_ebullition")))
+    
   # --- Models ---
   slopes <- filtered_data |>
     tidyr::pivot_longer(
@@ -139,6 +173,10 @@ calculate_flux <- function(data_small,
       names_from = gas,
       values_from = c(slope_ppm_per_day, R2, p, se, rmse, init, max, min),
       names_glue = "{gas}_{.value}"
+    ) |>
+    dplyr::full_join(
+      eb_by_roll_var,
+      by = c(group_vars)
     ) |>
     dplyr::full_join(
       data_flags,

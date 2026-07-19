@@ -4,7 +4,14 @@
 \alias{calculate_flux}
 \title{calculate_flux}
 \usage{
-calculate_flux(data_small, cutoff_start, cutoff_end, group_cols = NULL)
+calculate_flux(
+  data_small,
+  cutoff_start,
+  cutoff_end,
+  group_cols = NULL,
+  ebullition_cutoff = 0.001,
+  ebullition_window = 5
+)
 }
 \arguments{
 \item{data_small}{dataset. Must contain columns for Chamber, TIMESTAMP,
@@ -17,6 +24,10 @@ interval (in seconds)}
 interval (in seconds)}
 
 \item{group_cols}{Optional grouping variable. See details}
+
+\item{ebullition_cutoff}{Rolling variance threshold for ebullition}
+
+\item{ebullition_window}{Number of observations used to calculate rolling variance}
 }
 \value{
 Dataframe of calculated fluxes
@@ -31,5 +42,6 @@ that contains columns for gas concentrations (in ppm), timestamps, and
 a column with the chamber index. By default, fluxes are grouped by
 timestamp and chamber index, but additional grouping columns can be
 identified in group_cols (e.g., if data from multiple gas analyzers are
-combined in data_small)
+combined in data_small). Ebullition events are identified based on rolling
+variance, with the threshold and rolling window provided as parameters.
 }

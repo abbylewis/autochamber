@@ -26,5 +26,6 @@ Imports:
     stats,
     purrr,
     readr,
-    stringr
+    stringr,
+    RcppRoll
 LazyData: true
