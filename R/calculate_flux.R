@@ -105,13 +105,13 @@ calculate_flux <- function(data_small,
     )
   
   eb_by_roll_var <- filtered_data |>
+    dplyr::group_by(dplyr::across(dplyr::all_of(group_vars))) |>
     dplyr::mutate(
       delta = CH4d_ppm - lag(CH4d_ppm),
       run_var = RcppRoll::roll_var(CH4d_ppm, 5, fill = NA),
       ebullition = run_var > ebullition_cutoff & 
         delta > 0
     ) |>
-    dplyr::group_by(dplyr::across(dplyr::all_of(group_vars))) |>
     dplyr::summarize(
       ebullition = sum(ebullition, na.rm = T) > 0,
       CH4_slope_ppm_per_day_ebullition = (dplyr::last(CH4d_ppm) - dplyr::first(CH4d_ppm)) /
