@@ -106,6 +106,7 @@ calculate_flux <- function(data_small,
   
   eb_by_roll_var <- filtered_data |>
     dplyr::group_by(dplyr::across(dplyr::all_of(group_vars))) |>
+    dplyr::arrange(change_s, .by_group = T) |>
     dplyr::mutate(
       delta = CH4d_ppm - lag(CH4d_ppm),
       run_var = RcppRoll::roll_var(CH4d_ppm, 5, fill = NA),

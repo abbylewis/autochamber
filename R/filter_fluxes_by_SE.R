@@ -12,7 +12,7 @@ filter_fluxes_by_SE <- function(seasonal_fluxes,
   join_cols <- c("Chamber", "flux_time", group_cols)
 
   # --- Prep ---
-  seasonal_fluxes <- seasonal_fluxes |>
+  seasonal_fluxes <- seasonal_fluxes |> 
     dplyr::rename(flux_time = TIMESTAMP) |>
     dplyr::group_by(dplyr::across(dplyr::all_of(group_cols))) |>
     dplyr::filter(!duplicated(flux_time)) |>
