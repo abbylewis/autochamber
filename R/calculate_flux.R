@@ -119,10 +119,11 @@ calculate_flux <- function(data_small,
       .groups = "drop") |>
     dplyr::mutate(
       #Can't have negative ebullition
-      ebullition = ifelse(
-        CH4_slope_ppm_per_day_ebullition < 0,
-        F,
-        ebullition),
+      # Removed because it would be better to filter these out downstream
+      #ebullition = ifelse(
+      #  CH4_slope_ppm_per_day_ebullition < 0,
+      #  F,
+      #  ebullition),
       #Don't record ebullition flux if not ebullition
       CH4_slope_ppm_per_day_ebullition = ifelse(
         !ebullition,
